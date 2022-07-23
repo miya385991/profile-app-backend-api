@@ -1,0 +1,5 @@
+Insert into users(username, email,first_name,last_name) values('Stephen Curry', 'test@test.com', 'Stephen', 'Curry');
+Insert into users(username, email,first_name,last_name) values('Rudy Gobert', 'test@test.com', 'Rudy', 'Gobert');
+Insert into users(username, email,first_name,last_name) values('Jimmy Butler', 'test@test.com', 'Jimmy', 'Butler');
+Insert into users(username, email,first_name,last_name) values('Devin Booker', 'test@test.com', 'Devin', 'Booker');
+Insert into profiles(user_id, location,short_intro,bio,github,twitter, youtube) values('1', 'location', 'shor_intro', 'bio','github','twitter','youtube');
