@@ -1,19 +1,31 @@
-
 # FastAPIをインポート
-from fastapi import APIRouter, Depends
+from pprint import pprint
+
+from fastapi import APIRouter, Depends, File, UploadFile, Form, Body
+from pydantic import BaseModel
+from sqlalchemy import desc
 from sqlalchemy.orm import Session
-from base import Projects
 import models
 
-from opsions import get_db, http_exception, successful_response
-import sys
+from routers.setting import get_db, http_exception, successful_response, \
+    get_current_user
+import sys, json
+from os import getcwd, remove
 
 sys.path.append("..")
 
 router = APIRouter(
     prefix="/project",
     tags=["project"],
-    responses={401: {"user": "Not authorized"}})
+    responses={401: {"project": "Not authorized"}})
+
+
+class Projects(BaseModel):
+    title: str
+    description: str
+    demo_link: str
+    source_link: str
+    image_url: str
 
 
 @router.get("/")
@@ -30,24 +42,30 @@ async def search_project(project_id: int,
 
     if project is None:
         raise http_exception()
+
     return project
 
 
 @router.post("/")
-async def create_project(project: Projects, db: Session = Depends(get_db)):
+async def create_project(
+        project: Projects,
+        user: dict = Depends(get_current_user),
+        db: Session = Depends(get_db)):
+
     project_model = models.Projects()
     if project_model is None:
         raise http_exception()
 
-    project_model.owner = project.owner
     project_model.title = project.title
     project_model.description = project.description
     project_model.demo_link = project.demo_link
     project_model.source_link = project.source_link
-    project_model.vote_total = project.vote_total
-    project_model.vote_ratio = project.vote_ratio
+    project_model.image_url = project.image_url
+    project_model.user_id = user.get('id')
     db.add(project_model)
+
     db.commit()
+
     return successful_response(201)
 
 
@@ -60,13 +78,11 @@ async def update_project(project_id: int, project: Projects,
     if project_model is None:
         raise http_exception()
 
-    project_model.owner = project.owner
     project_model.title = project.title
     project_model.description = project.description
+    # project_model.featured_image = project.featured-images
     project_model.demo_link = project.demo_link
     project_model.source_link = project.source_link
-    project_model.vote_total = project.vote_total
-    project_model.vote_ratio = project.vote_ratio
     db.add(project_model)
     db.commit()
 
@@ -86,3 +102,11 @@ async def delete_project(project_id: int,
         filter(models.Projects.id == project_id).delete()
     db.commit()
     return successful_response(200)
+
+
+@router.get('/owners/{user_id}')
+async def owners_projects(user_id: int,
+                          db: Session = Depends(get_db)):
+    project = db.query(models.Projects) \
+        .filter(models.Projects.owner == user_id).all()
+    return project
