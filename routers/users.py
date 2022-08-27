@@ -27,7 +27,6 @@ router = APIRouter(
 class Users(BaseModel):
     username: str
     email: EmailStr
-    phone_number: str
     first_name: str
     last_name: str
     password: str
@@ -58,7 +57,6 @@ async def create_user(user: Users, db: Session = Depends(get_db)):
 
     user_model.username = user.username
     user_model.email = user.email
-    user_model.phone_number = user.phone_number
     user_model.first_name = user.first_name
     user_model.last_name = user.last_name
 

@@ -51,7 +51,6 @@ class Users(Base):
     id = Column(Integer, autoincrement=True, primary_key=True)
     username = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    phone_number = Column(String, nullable=False)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     hash_password = Column(String)
