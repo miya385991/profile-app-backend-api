@@ -18,9 +18,6 @@ router = APIRouter(
 @router.get("/")
 async def portfolio_get_all(user: dict = Depends(get_current_user),
                             db: Session = Depends(get_db)):
-    # profile = []
-    # skill = []
-    # media = []
 
     user_id = user.get('id')
     # Usersから取得
