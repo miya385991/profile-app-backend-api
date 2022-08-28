@@ -21,10 +21,10 @@ router = APIRouter(
 
 
 class Projects(BaseModel):
-    title: str
-    description: str
-    demo_link: str
-    source_link: str
+    title: str = ''
+    description: str = ''
+    demo_link: str = ''
+    source_link: str = ''
     image_url: str = 'images/default.jpeg'
 
 
