@@ -70,6 +70,7 @@ class Profiles(Base):
                                          ondelete='CASCADE'), nullable=False)
     user = relationship("Users", back_populates="profile_users")
 
+    nick_name = Column(String, nullable=False)
     short_intro = Column(String(200))
     bio = Column(Text)
     location = Column(String(200))

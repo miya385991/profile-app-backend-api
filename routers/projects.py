@@ -25,7 +25,7 @@ class Projects(BaseModel):
     description: str
     demo_link: str
     source_link: str
-    image_url: str
+    image_url: str = 'images/default.jpeg'
 
 
 @router.get("/")

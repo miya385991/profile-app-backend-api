@@ -1,7 +1,7 @@
 # FastAPIをインポート
 from fastapi import APIRouter, Depends, File, UploadFile, Form, Header
 from sqlalchemy.orm import Session
-import models, shutil, sys
+import models, shutil, sys, os.path
 from pydantic import BaseModel
 from routers.setting import get_db, http_exception, successful_response, \
     get_current_user
@@ -16,10 +16,14 @@ router = APIRouter(
 
 
 class Profiles(BaseModel):
+    nick_name: str
     location: str
     short_intro: str
     bio: str
-    image_url: str
+    image_url: str = 'images/default.jpeg'
+
+
+print(os.path.relpath('default.png'))
 
 
 @router.get("/")
@@ -50,6 +54,7 @@ async def create_profile(profile: Profiles,
         raise http_exception()
     # profileデータ
     profile_model.user_id = user.get('id')
+    profile_model.nick_name = profile.nick_name
     profile_model.location = profile.location
     profile_model.short_intro = profile.short_intro
     profile_model.bio = profile.bio
@@ -72,6 +77,7 @@ async def update_profile(profile_id: int, profile: Profiles,
         raise http_exception()
 
     profile_model.user_id = user.get('id')
+    profile_model.nick_name = profile.nick_name
     profile_model.location = profile.location
     profile_model.short_intro = profile.short_intro
     profile_model.bio = profile.bio
