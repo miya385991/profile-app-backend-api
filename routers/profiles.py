@@ -63,6 +63,7 @@ async def create_profile(profile: Profiles,
 
 @router.put('/{profile_id}')
 async def update_profile(profile_id: int, profile: Profiles,
+                         user: dict = Depends(get_current_user),
                          db: Session = Depends(get_db)):
     profile_model = db.query(models.Profiles) \
         .filter(models.Profiles.id == profile_id).first()
@@ -70,11 +71,11 @@ async def update_profile(profile_id: int, profile: Profiles,
     if profile_model is None:
         raise http_exception()
 
+    profile_model.user_id = user.get('id')
     profile_model.location = profile.location
     profile_model.short_intro = profile.short_intro
     profile_model.bio = profile.bio
     profile_model.image_url = profile.image_url
-    db.add(profile)
 
     db.add(profile_model)
     db.commit()
