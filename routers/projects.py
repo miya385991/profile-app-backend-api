@@ -51,7 +51,6 @@ async def create_project(
         project: Projects,
         user: dict = Depends(get_current_user),
         db: Session = Depends(get_db)):
-
     project_model = models.Projects()
     if project_model is None:
         raise http_exception()
@@ -71,6 +70,7 @@ async def create_project(
 
 @router.put('/{project_id}')
 async def update_project(project_id: int, project: Projects,
+                         user: dict = Depends(get_current_user),
                          db: Session = Depends(get_db)):
     project_model = db.query(models.Projects) \
         .filter(models.Projects.id == project_id).first()
@@ -80,10 +80,12 @@ async def update_project(project_id: int, project: Projects,
 
     project_model.title = project.title
     project_model.description = project.description
-    # project_model.featured_image = project.featured-images
     project_model.demo_link = project.demo_link
     project_model.source_link = project.source_link
+    project_model.image_url = project.image_url
+    project_model.user_id = user.get('id')
     db.add(project_model)
+
     db.commit()
 
     return successful_response(200)
