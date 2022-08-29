@@ -23,8 +23,6 @@ class Profiles(BaseModel):
     image_url: str = 'images/default.jpeg'
 
 
-print(os.path.relpath('default.png'))
-
 
 @router.get("/")
 async def profile_all(db: Session = Depends(get_db)):
