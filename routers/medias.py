@@ -1,6 +1,6 @@
 # FastAPIをインポート
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from routers.setting import get_db, http_exception, \

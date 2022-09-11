@@ -1,12 +1,13 @@
-from fastapi import HTTPException, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status
 from database import SessionLocal
 from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer
 from typing import Optional
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
-import models, pprint
+import models
+
 
 # db
 def get_db():
@@ -32,6 +33,7 @@ def model_exception(models):
     if models is None:
         raise http_exception()
 
+
 # token
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated="auto")
 
@@ -40,6 +42,7 @@ ALGOROTHM = "HS256"
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token")
 token_expires = timedelta(hours=5)
+
 
 def get_password_hash(password):
     get_password = bcrypt_context.hash(password)
@@ -94,8 +97,8 @@ def token_excetin():
     return token_exception_response
 
 
-async def get_current_user(token:str = Depends(oauth2_bearer),
-                           db:Session= Depends(get_db)):
+async def get_current_user(token: str = Depends(oauth2_bearer),
+                           db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGOROTHM])
         username: str = payload.get("sub")

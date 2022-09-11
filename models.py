@@ -1,10 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, LargeBinary, \
-    Table, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import ForeignKey
 from sqlalchemy.sql import func
 from database import Base
-import datetime
 
 import secrets
 import string

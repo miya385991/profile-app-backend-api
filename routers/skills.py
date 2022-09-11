@@ -1,12 +1,13 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy import desc
-from sqlalchemy.orm import Session
-from pydantic import BaseModel
+import sys
 
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+import models
+import random
 from routers.setting import get_db, http_exception, successful_response, \
     get_current_user
-import models, random
-import sys
 
 sys.path.append("..")
 

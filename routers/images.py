@@ -1,21 +1,12 @@
 # FastAPIをインポート
 import os
 
-from fastapi import APIRouter, Depends, File, UploadFile, Form
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
-from pathlib import Path
-from fastapi.responses import FileResponse, JSONResponse
-from routers.setting import get_db, http_exception, \
-    successful_response, model_exception
-import models, shutil, datetime
-from shutil import rmtree
+from fastapi import APIRouter, File, UploadFile, Form
+from fastapi.responses import JSONResponse
+import shutil
 
 from os import getcwd, remove
-# import sys
-#
-# sys.path.append("..")
-from fastapi.staticfiles import StaticFiles
+
 
 router = APIRouter(
     prefix="/images",

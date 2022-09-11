@@ -1,6 +1,6 @@
 # FastAPIをインポート
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI
 from database import engine
 from fastapi.staticfiles import StaticFiles
 from routers import profiles, projects, users, skills, \

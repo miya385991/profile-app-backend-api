@@ -1,16 +1,12 @@
 # FastAPIをインポート
-from pprint import pprint
-
-from fastapi import APIRouter, Depends, File, UploadFile, Form, Body
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from sqlalchemy import desc
 from sqlalchemy.orm import Session
 import models
 
 from routers.setting import get_db, http_exception, successful_response, \
     get_current_user
-import sys, json
-from os import getcwd, remove
+import sys
 
 sys.path.append("..")
 

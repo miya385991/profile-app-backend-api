@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from routers.setting import get_db, authenticate_user, \
     create_access_token, token_expires, token_excetin
-import models
 
 router = APIRouter(
     tags=['authentication']

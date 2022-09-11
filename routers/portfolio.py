@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
-from routers.setting import get_db, http_exception, successful_response, \
-    get_current_user
-import models, random
+from routers.setting import get_db, get_current_user
+import models
 import sys
 
 sys.path.append("..")

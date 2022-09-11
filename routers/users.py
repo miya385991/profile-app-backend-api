@@ -14,7 +14,6 @@ from jose import jwt, JWTError
 
 from fastapi.testclient import TestClient
 
-
 sys.path.append("..")
 
 # FastAPIのインスタンス作成
@@ -32,7 +31,6 @@ class Users(BaseModel):
     password: str
 
 
-
 @router.get("/")
 async def user_all(db: Session = Depends(get_db)):
     users = db.query(models.Users).all()
@@ -41,7 +39,8 @@ async def user_all(db: Session = Depends(get_db)):
 
 @router.get("/{user_id}")
 async def search_user(user_id: int,
-                      db: Session = Depends(get_db), token:str = Depends(oauth2_bearer)):
+                      db: Session = Depends(get_db),
+                      token: str = Depends(oauth2_bearer)):
     users = db.query(models.Users) \
         .filter(models.Users.id == user_id).first()
 
@@ -53,6 +52,7 @@ async def search_user(user_id: int,
 @router.post("/")
 async def create_user(user: Users, db: Session = Depends(get_db)):
     user_model = models.Users()
+
     model_exception(user_model)
 
     user_model.username = user.username
@@ -62,10 +62,20 @@ async def create_user(user: Users, db: Session = Depends(get_db)):
 
     hash_password = get_password_hash(user.password)
     user_model.hash_password = hash_password
-    #
+
     db.add(user_model)
     db.commit()
-    return successful_response(201)
+
+    create_user_token = authenticate_user(user.username, user.password, db)
+    if not user:
+        raise token_excetin()
+    access_token = create_access_token(create_user_token,
+                                       expires_delta=token_expires)
+    return {
+        'token': access_token,
+        "status": 201,
+        "transaction": "Successful"
+    }
 
 
 @router.put('/{user_id}')

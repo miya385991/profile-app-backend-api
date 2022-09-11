@@ -1,11 +1,10 @@
 # FastAPIをインポート
-from fastapi import APIRouter, Depends, File, UploadFile, Form, Header
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-import models, shutil, sys, os.path
+import models, sys
 from pydantic import BaseModel
 from routers.setting import get_db, http_exception, successful_response, \
     get_current_user
-from os import getcwd, remove
 
 sys.path.append("..")
 
