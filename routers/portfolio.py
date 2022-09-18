@@ -17,16 +17,20 @@ router = APIRouter(
 async def portfolio_get_all(user: dict = Depends(get_current_user),
                             db: Session = Depends(get_db)):
 
+
+
+
     user_id = user.get('id')
-    # Usersから取得
+
     user = db.query(models.Users) \
         .filter(models.Users.id == user_id).first()
 
-    # profilesから取得
+    # データ取得がない場合はからので空のdictを入れる。
     profile = db.query(models.Profiles) \
         .filter(models.Profiles.user_id == user_id).first()
+    if not profile:
+        profile = {}
 
-    # projectsから取得
     projects = db.query(models.Projects) \
         .filter(models.Projects.user_id == user_id).all()
 
@@ -36,6 +40,11 @@ async def portfolio_get_all(user: dict = Depends(get_current_user),
     media = db.query(models.Medias) \
         .filter(models.Medias.user_id == user_id).all()
 
+
+
+
+
+
     return {
         'user': user,
         'profile': profile,
@@ -43,3 +52,4 @@ async def portfolio_get_all(user: dict = Depends(get_current_user),
         'skill': skill,
         'media': media
     }
+
