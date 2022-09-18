@@ -16,10 +16,6 @@ router = APIRouter(
 @router.get("/")
 async def portfolio_get_all(user: dict = Depends(get_current_user),
                             db: Session = Depends(get_db)):
-
-
-
-
     user_id = user.get('id')
 
     user = db.query(models.Users) \
@@ -40,16 +36,17 @@ async def portfolio_get_all(user: dict = Depends(get_current_user),
     media = db.query(models.Medias) \
         .filter(models.Medias.user_id == user_id).all()
 
-
-
-
-
-
     return {
-        'user': user,
-        'profile': profile,
-        'project': projects,
-        'skill': skill,
-        'media': media
+        'user': {
+            "first_name": user.first_name,
+            "username": user.username,
+            "email": user.email,
+            "last_name": user.last_name,
+            'detail': {
+                'profile': profile,
+                'project': projects,
+                'skill': skill,
+                'media': media
+            }
+        },
     }
-
