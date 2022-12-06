@@ -23,7 +23,7 @@ app.add_middleware(
 
 # db 実行0
 models.Base.metadata.create_all(bind=engine)
-app.include_router((authentication.router))
+app.include_router(authentication.router)
 app.include_router(portfolio.router)
 app.include_router(images.router)
 app.include_router(users.router)

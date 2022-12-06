@@ -26,6 +26,7 @@ async def create_upload_file(upload_file: UploadFile = File(...)):
     }
 
 
+
 @router.delete("/")
 async def delete_file(folder: str = Form(...)):
     remove(f'images/{folder}')

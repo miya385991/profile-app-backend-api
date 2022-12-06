@@ -43,7 +43,6 @@ class Skills(Base):
                                          ondelete='CASCADE'), nullable=False)
     user = relationship("Users", back_populates="skill_users")
 
-
 class Users(Base):
     __tablename__ = "users"
     id = Column(Integer, autoincrement=True, primary_key=True)
