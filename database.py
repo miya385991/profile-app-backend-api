@@ -11,7 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 # SQLALCHEMY_DATABASE_URL = "postgresql://postgres:root@localhost/portfolio"
-SQLALCHEMY_DATABASE_URL = "postgres://veawzjpz:SPWBp0cIBeuRaWlVPoaUxlvUdjzl9gKt@arjuna.db.elephantsql.com/veawzjpz"
+SQLALCHEMY_DATABASE_URL = "postgresql://veawzjpz:SPWBp0cIBeuRaWlVPoaUxlvUdjzl9gKt@arjuna.db.elephantsql.com/veawzjpz"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
